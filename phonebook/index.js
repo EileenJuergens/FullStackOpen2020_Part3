@@ -44,6 +44,7 @@ app.get('/info', (req, res) => {
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   const person = persons.find(person => person.id === id)
+
   if (person) {
     res.json(person)
   } else {
@@ -59,34 +60,26 @@ app.delete('/api/persons/:id', (req, res) => {
   res.status(204).end()
 })
 
-const generateId = () => {
-  const maxId = notes.length > 0
-    ? Math.max(...persons.map(person => person.id))
-    : 0
-  return maxId + 1
-}
-
+// POST New person
 app.post('/api/persons', (req, res) => {
   const body = req.body
 
-  if (!body.content) {
+  if (!body.name || !body.number) {
     return res.status(400).json({
-      error: 'content missing'
+      error: 'name and number missing'
     })
   }
 
   const person = {
-    name: body.content,
-    number: body.content,
-    id: generateId(),
+    name: body.name,
+    number: body.number,
+    id: Math.floor(Math.random() * 100),
   }
 
   persons = persons.concat(person)
 
-  response.json(person)
+  res.json(person)
 })
-
-
 
 
 const PORT = 3001
