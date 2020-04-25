@@ -37,6 +37,13 @@ app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
+app.get('/info', (req, res) => {
+  res.send(`
+  <p>Phonebook has info for ${persons.length} people</p>
+  <p>${new Date()}</p>
+  `)
+})
+
 const generateId = () => {
   const maxId = notes.length > 0
     ? Math.max(...persons.map(person => person.id))
@@ -63,6 +70,7 @@ app.post('/api/persons', (req, res) => {
 
   response.json(person)
 })
+
 
 
 const PORT = 3001
