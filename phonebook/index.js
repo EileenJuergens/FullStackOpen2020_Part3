@@ -24,24 +24,31 @@ let persons = [
     name: "Mary Poppendieck",
     number: "39-23-6423122",
     id: 4
-  },
-  {
-    name: "Eileen Juergens",
-    number: "122-879-4534",
-    id: 5
   }
 ]
 
-
+// All persons
 app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
+// Info page
 app.get('/info', (req, res) => {
   res.send(`
   <p>Phonebook has info for ${persons.length} people</p>
   <p>${new Date()}</p>
   `)
+})
+
+// Specific person
+app.get('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  const person = persons.find(person => person.id === id)
+  if (person) {
+    res.json(person)
+  } else {
+    res.status(404).end()
+  }
 })
 
 const generateId = () => {
