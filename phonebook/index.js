@@ -66,7 +66,14 @@ app.post('/api/persons', (req, res) => {
 
   if (!body.name || !body.number) {
     return res.status(400).json({
-      error: 'name and number missing'
+      error: 'name or number missing'
+    })
+  }
+
+  const dobbledName = persons.map(person => person.name === body.name).includes(true)
+  if (dobbledName) {
+    return res.status(400).json({
+      error: 'name must be unique'
     })
   }
 
