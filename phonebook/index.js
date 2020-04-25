@@ -27,12 +27,12 @@ let persons = [
   }
 ]
 
-// All persons
+// GET All persons
 app.get('/api/persons', (req, res) => {
   res.json(persons)
 })
 
-// Info page
+// GET Info page
 app.get('/info', (req, res) => {
   res.send(`
   <p>Phonebook has info for ${persons.length} people</p>
@@ -40,7 +40,7 @@ app.get('/info', (req, res) => {
   `)
 })
 
-// Specific person
+// GET Specific person
 app.get('/api/persons/:id', (req, res) => {
   const id = Number(req.params.id)
   const person = persons.find(person => person.id === id)
@@ -49,6 +49,14 @@ app.get('/api/persons/:id', (req, res) => {
   } else {
     res.status(404).end()
   }
+})
+
+// DELETE Specific person
+app.delete('/api/persons/:id', (req, res) => {
+  const id = Number(req.params.id)
+  persons = persons.filter(person => person.id !== id)
+
+  res.status(204).end()
 })
 
 const generateId = () => {
@@ -77,6 +85,7 @@ app.post('/api/persons', (req, res) => {
 
   response.json(person)
 })
+
 
 
 
