@@ -1,8 +1,11 @@
-const express = require('express')
-const app = express()
+const express = require('express');
+const morgan = require('morgan');
+const bodyParser = require('body-parser');
 
-app.use(express.json())
+const app = express();
 
+app.use(bodyParser.json())
+app.use(morgan('tiny'));
 
 let persons = [
   {
