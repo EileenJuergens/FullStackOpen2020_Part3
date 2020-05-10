@@ -27,7 +27,7 @@ app.get('/api/persons', (req, res) => {
 })
 
 // GET Info page
-app.get('/info', (req, res) => {
+app.get('/api/persons/info', (req, res) => {
   Person.find({})
     .then(persons => {
       res.send(`
@@ -47,7 +47,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 // DELETE Specific person
 app.delete('/api/persons/:id', (req, res) => {
-  Person.deleteOne({ _id: req.params.id })
+  Person.findByIdAndRemove(req.params.id)
     .then(() => {
       res.status(204)
       res.end()
