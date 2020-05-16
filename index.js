@@ -12,20 +12,11 @@ morgan.token('request-body', function (req, res) {
 
 const app = express();
 
-app.use(bodyParser.json())
 app.use(cors());
+app.use(bodyParser.json())
 app.use(express.static('build'))
 app.use(morgan(':method :url :status :res[content-length] :response-time ms :request-body'));
 
-
-// GET All persons
-app.get('/api/persons', (req, res, next) => {
-  Person.find({})
-    .then(persons => {
-      res.json(persons)
-    })
-    .catch(error => next(error))
-})
 
 // GET Info page
 app.get('/api/persons/info', (req, res, next) => {
@@ -37,6 +28,15 @@ app.get('/api/persons/info', (req, res, next) => {
       `)
     })
     .catch(error => next(error))
+})
+
+// GET All persons
+app.get('/api/persons', (req, res, next) => {
+  Person.find({})
+    .then(persons => {
+      res.json(persons)
+    })
+    .catch(error => next(error))∫
 })
 
 // GET Specific person
@@ -66,7 +66,7 @@ app.delete('/api/persons/:id', (req, res, next) => {
 // POST New person
 app.post('/api/persons', (req, res, next) => {
   const body = req.body
-  // const dobbledName = Person.findOne({ name: body.name })
+  // const doubledName = Person.findOne({ name: body.name })
 
   if (body.name === undefined || body.number === undefined) {
     res.status(400)
@@ -74,7 +74,7 @@ app.post('/api/persons', (req, res, next) => {
     res.end()
   }
 
-  // if (dobbledName) {
+  // if (doubledName) {
   //   res.status(400)
   //   res.json({ error: 'name must be unique' })
   // }
@@ -108,13 +108,14 @@ app.put('/api/persons/:id', (req, res, next) => {
 })
 
 
-
+// Unknown endpoint
 const unknownEndpoint = (req, res) => {
   res.status(404)
   res.send({ error: 'unknown endpoint' })
 }
 
 app.use(unknownEndpoint)
+
 
 const errorHandler = (error, req, res, next) => {
   console.error(error.message)
