@@ -36,7 +36,7 @@ app.get('/api/persons', (req, res, next) => {
     .then(persons => {
       res.json(persons)
     })
-    .catch(error => next(error))∫
+    .catch(error => next(error))
 })
 
 // GET Specific person
@@ -100,7 +100,7 @@ app.put('/api/persons/:id', (req, res, next) => {
     number: body.number
   };
 
-  Person.findByIdAndUpdate(req.params.id, person)
+  Person.findByIdAndUpdate(req.params.id, person, { new: true })
     .then(updatedPerson => {
       res.json(updatedPerson)
     })
