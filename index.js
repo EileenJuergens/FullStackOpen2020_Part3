@@ -1,25 +1,35 @@
-require('dotenv').config()
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const express = require('express');
-const morgan = require('morgan');
+// const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Person = require('./models/person');
-
-
-morgan.token('request-body', function (req, res) { 
-  return JSON.stringify(req.body)
-})
-
 const app = express();
 
+
+// morgan.token('request-body', function (req, res) { 
+//   return JSON.stringify(req.body)
+// })
+
+const logger = (req, res, next) => {
+  console.log('Method:', req.method)
+  console.log('Path:  ', req.path)
+  console.log('Body:  ', req.body)
+  console.log('---')
+  next()
+}
+
 app.use(cors());
-app.use(bodyParser.json())
 app.use(express.static('build'))
-app.use(morgan(':method :url :status :res[content-length] :response-time ms :request-body'));
+app.use(bodyParser.json())
+app.use(logger)
+// app.use(morgan(':method :url :status :res[content-length] :response-time ms :request-body'));
 
 
 // GET Info page
-app.get('/api/persons/info', (req, res, next) => {
+app.get('/info', (req, res, next) => {
   Person.find({})
     .then(persons => {
       res.send(`
@@ -124,6 +134,10 @@ const errorHandler = (error, req, res, next) => {
     res.status(400)
     res.send({ error: 'malformatted id' })
   } 
+  else if (error.name === 'ValidationError') {
+    res.status(400)
+    res.json({ error: error.message })
+  }
 
   next(error)
 }
