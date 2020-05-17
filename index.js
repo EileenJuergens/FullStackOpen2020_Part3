@@ -1,17 +1,13 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+require('dotenv').config()
 const express = require('express');
-// const morgan = require('morgan');
+const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Person = require('./models/person');
 const app = express();
 
 
-// morgan.token('request-body', function (req, res) { 
-//   return JSON.stringify(req.body)
-// })
+morgan.token('request-body',  (req) => JSON.stringify(req.body))
 
 const logger = (req, res, next) => {
   console.log('Method:', req.method)
@@ -25,7 +21,7 @@ app.use(cors());
 app.use(express.static('build'))
 app.use(bodyParser.json())
 app.use(logger)
-// app.use(morgan(':method :url :status :res[content-length] :response-time ms :request-body'));
+app.use(morgan(':method :url :status :res[content-length] :response-time ms :request-body'));
 
 
 // GET Info page
@@ -90,7 +86,7 @@ app.post('/api/persons', (req, res, next) => {
   // }
 
   else {
-    Person.create({
+    Person.save({
       name: body.name,
       number: body.number
     })
