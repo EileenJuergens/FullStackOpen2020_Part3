@@ -3,6 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator');
  
 mongoose.set('useFindAndModify', false)
 mongoose.set('useCreateIndex', true);
+mongoose.set('runValidators', true);
 
 const url = process.env.MONGODB_URL;
 
@@ -22,11 +23,12 @@ const personSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    minlength: 4
+    minlength: 3
   },
   number: {
     type: String,
-    required: true
+    required: true,
+    minlength: 8
   } 
 })
 
