@@ -9,8 +9,10 @@ const mongooseConfig = {
   useNewUrlParser: true
 }
 
+const url = process.env.MONGODB_URI
 
-mongoose.connect(process.env.MONGODB_URI, mongooseConfig)
+
+mongoose.connect(url.toString(), mongooseConfig)
   .then(() => {
     console.log('connected to MongoDB')
   })
