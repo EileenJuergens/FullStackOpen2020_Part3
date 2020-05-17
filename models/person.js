@@ -10,7 +10,6 @@ const options = {
 }
 
 const url = process.env.MONGODB_URI
-console.log(typeof url === 'string')
 
 mongoose.connect(url, options)
   .then(() => {
