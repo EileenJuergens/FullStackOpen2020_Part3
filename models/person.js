@@ -1,12 +1,14 @@
-require('dotenv').config()
+'use strict';
+
 const mongoose = require('mongoose');
+require('dotenv').config()
 const uniqueValidator = require('mongoose-unique-validator');
 
 const options = {
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 }
 
 const url = process.env.MONGODB_URI
